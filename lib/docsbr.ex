@@ -1,11 +1,13 @@
 defmodule Docsbr do
+  alias Docsbr.GenerateCpf, as: Cpf
+
   def main(args) do
     args |> parse_args |> process
   end
 
   def process(options) do
     case options[:doc] do
-      "cpf" -> IO.puts "Return a valid cpf"
+      "cpf" ->  IO.puts Cpf.generate_cpf
       "cnpj" -> IO.puts "Return a valid cnpj"
       _ -> IO.puts "Usage: $ docsbr --doc=<cpf | cnpj>"
     end

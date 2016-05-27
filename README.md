@@ -1,8 +1,9 @@
 # Docsbr
 
-A cli to create valid Br documents for development :
+A cli to create valid Br documents for development purpose :
+
 * Cfp
-*Cnpj
+* Cnpj
 
 ## Usage
 
@@ -11,6 +12,6 @@ A cli to create valid Br documents for development :
 ### Examples
 
 ```
-$ docsbr --doc=cpf   
-# 000.000.000-00 
+$ docsbr --doc cpf
+454.387.062-04
 ```
