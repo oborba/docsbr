@@ -1,4 +1,8 @@
 defmodule Docsbr do
+  @moduledoc"""
+  Main module, parse the options and generate a required document
+  """
+
   alias Docsbr.GenerateCpf, as: Cpf
 
   def main(args) do
