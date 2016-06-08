@@ -3,7 +3,7 @@ defmodule Docsbr.GenerateCpf do
   Generate valid cpf numbers
   """
 
-  def generate_cpf do
+  def generate do
     cpf = Enum.reduce_while(0..8, [], fn i, result -> if i < 9, do: {:cont, result = result ++ [Enum.random(0..9)]}, else: {:halt, result = result ++ [Enum.random(0..9)]} end)
 
     cpf = cpf ++ [calculate_digit(cpf, 1)]
