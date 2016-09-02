@@ -10,18 +10,14 @@ defmodule Docsbr do
     args |> parse_args |> process
   end
 
-  def process(options) do
-    case options[:doc] do
-      "cpf" ->  IO.puts Cpf.generate
-      "cnpj" -> IO.puts Cnpj.generate
-      _ -> IO.puts "Usage: $ docsbr --doc=<cpf | cnpj>"
-    end
-  end
-
   defp parse_args(args) do
     {options, _, _} = OptionParser.parse(args,
       switches: [doc: :string]
     )
-    options
+    options[:doc]
   end
+
+  defp process(option) when option == "cpf", do: IO.puts Cpf.generate
+  defp process(option) when option == "cnpj", do: IO.puts Cnpj.generate
+  defp process(_), do: IO.puts "Usage: $ docsbr --doc=<cpf | cnpj>"
 end
