@@ -2,7 +2,7 @@
 
 A cli to create valid Br documents for development purpose :
 
-* Cfp
+* Cpf
 * Cnpj
 
 ## Build
