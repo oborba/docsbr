@@ -30,12 +30,9 @@ defmodule Docsbr.GenerateCnpj do
     end
   end
 
-  def first_result([head | tail], n, result) do
+  defp first_result([head | tail], n, result) do
     result = result + head * n
     first_result(tail, n - 1, result)
   end
-
-  def first_result([], n, result) do
-    result
-  end
+  defp first_result([], _n, result), do: result
 end

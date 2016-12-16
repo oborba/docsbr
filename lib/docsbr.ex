@@ -6,9 +6,7 @@ defmodule Docsbr do
   alias Docsbr.GenerateCpf, as: Cpf
   alias Docsbr.GenerateCnpj, as: Cnpj
 
-  def main(args) do
-    args |> parse_args |> process
-  end
+  def main(args), do: args |> parse_args |> process
 
   defp parse_args(args) do
     {options, _, _} = OptionParser.parse(args,
@@ -17,7 +15,7 @@ defmodule Docsbr do
     options[:doc]
   end
 
-  defp process(option) when option == "cpf", do: IO.puts Cpf.generate
-  defp process(option) when option == "cnpj", do: IO.puts Cnpj.generate
+  defp process("cpf"), do: IO.puts Cpf.generate
+  defp process("cnpj"), do: IO.puts Cnpj.generate
   defp process(_), do: IO.puts "Usage: $ docsbr --doc=<cpf | cnpj>"
 end
