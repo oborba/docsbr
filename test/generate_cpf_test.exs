@@ -3,27 +3,21 @@ defmodule Docsbr.GenerateCpfTest do
 
   alias Docsbr.GenerateCpf
 
-  @cpf_base [1,1,1,4,4,4,7,7,7]
+  test "Generate a valid cpf" do
+    cpf = GenerateCpf.generate
 
-  ###
-  #calculate_digit
-  ###
-
-  test "Generate first digit" do
-    assert GenerateCpf.calculate_digit(@cpf_base, 1) == 3
+    assert String.length(cpf) == 11
+    assert cpf
+      |> String.slice(0..-3) |> GenerateCpf.verification_digit |> GenerateCpf.verification_digit |> Enum.join == cpf
   end
 
-  test "Generate second digit" do
-    cpf_with_one_digit = @cpf_base |> Enum.concat([3])
+  test "Generate valid digits" do
+    cpf_with_first_digit = GenerateCpf.verification_digit("213460810")
 
-    assert GenerateCpf.calculate_digit(cpf_with_one_digit, 2) == 5
-  end
+    assert cpf_with_first_digit |> Enum.join == "2134608102"
 
-  ###
-  # .first_result
-  ###
+    cpf = GenerateCpf.verification_digit(cpf_with_first_digit) # 26
 
-  test "Base for First Digit calc" do
-    assert GenerateCpf.first_result(@cpf_base, 10, 0) == 162
+    assert cpf |> Enum.join == "21346081026"
   end
 end

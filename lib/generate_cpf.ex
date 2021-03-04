@@ -1,37 +1,44 @@
 defmodule Docsbr.GenerateCpf do
-  @moduledoc"""
-  Generate valid cpf numbers
-  """
-
   def generate do
-    (for _n <- 1..9, do: Enum.random(0..9))
-    |> (&(Kernel.++(&1, [calculate_digit(&1, 1)]))).()
-    |> (&(Kernel.++(&1, [calculate_digit(&1, 2)]))).()
-    |> Enum.join("")
+    base_cpf()
+    |> verification_digit
+    |> verification_digit
+    |> Enum.join()
   end
 
-  def calculate_digit(base, digit) do
-    position_digit = case digit do
-      1 -> 10
-      2 -> 11
-    end
-
-    base |> first_result(position_digit, 0) |> final_digit
+  defp base_cpf do
+    0..8
+    |> Enum.map(fn _x -> Enum.random(0..9) end)
   end
 
-  defp final_digit(digit) do
-    result = digit |> rem(11)
-
-    case result do
-      result when result < 2 -> 0
-      _ -> 11 - result
-    end
+  def verification_digit(base) when is_binary(base) do
+    base |> String.graphemes() |> Enum.map(fn x -> String.to_integer(x) end) |> verification_digit
   end
 
-  def first_result([head | tail], n, result) do
-    result = result + head * n
-    first_result(tail, n - 1, result)
+  def verification_digit(base) do
+    digit =
+      base
+      |> Enum.count()
+      |> case do
+        9 -> 10..2
+        10 -> 11..2
+      end
+      |> Enum.map(fn x -> x end)
+      |> multiply_by_index(base, 0)
+
+    Enum.concat(base, digit)
   end
 
-  def first_result([], _n, result), do: result
+  defp multiply_by_index([h1 | t1], [h2 | t2], acc) do
+    result = h1 * h2 + acc
+
+    multiply_by_index(t1, t2, result)
+  end
+
+  defp multiply_by_index([], [], acc) do
+    format_digit(rem(acc * 10, 11))
+  end
+
+  defp format_digit(digit) when digit != 10, do: [digit]
+  defp format_digit(10), do: [0]
 end
